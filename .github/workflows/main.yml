@@ -12,15 +12,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Ren'Py
-        uses: Ayowel/renpy-setup-action@v2.0.1
+      - name: Install Ren'Py
+        uses: Ayowel/renpy-setup-action@v3
         with:
+          action: install
           version: "8.5.3"
 
-      - name: Build Windows game
-        run: |
-          mkdir -p build
-          renpy.sh launcher distribute . --destination build
+      - name: Build Windows version
+        uses: Ayowel/renpy-setup-action@v3
+        with:
+          action: distribute
+          packages: win
+          out_dir: build
 
       - name: Upload Windows build
         uses: actions/upload-artifact@v4
