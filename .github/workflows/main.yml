@@ -1,0 +1,29 @@
+name: Build Dream Entity
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ren'Py
+        uses: Ayowel/renpy-setup-action@v2.0.1
+        with:
+          version: "8.5.3"
+
+      - name: Build Windows game
+        run: |
+          mkdir -p build
+          renpy.sh launcher distribute . --destination build
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dream-Entity-Windows
+          path: build/
